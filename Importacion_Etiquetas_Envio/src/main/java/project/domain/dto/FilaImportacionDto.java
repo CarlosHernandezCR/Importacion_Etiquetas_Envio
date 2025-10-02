@@ -3,11 +3,17 @@ package project.domain.dto;
 import lombok.Data;
 import lombok.ToString;
 
+import static project.common.constants.ConstantesCSV.*;
+
 @Data
 @ToString
 public class FilaImportacionDto {
+    @com.opencsv.bean.CsvBindByName(column = H_NUMERO_PEDIDO)
     private int numeroPedido;
-    private String ciudad;
-    private String direccion1;
+
+    @com.opencsv.bean.CsvBindByName(column = H_ALMACEN)
+    private String almacen;
+
+    @com.opencsv.bean.CsvBindByName(column = H_ETIQUETA)
     private String etiqueta;
 }

@@ -70,21 +70,19 @@ public class VentanaPrincipal extends JFrame {
             @Override
             protected Void doInBackground() {
                 try {
-                    List<FilaImportacionDto> filas = lectorCsv.leerCsv(archivo.getAbsolutePath());
+                    var filas = lectorCsv.leerCsv(archivo.getAbsolutePath());
                     int correctos = 0;
-                    for (FilaImportacionDto fila : filas) {
+
+                    for (var fila : filas) {
                         try {
-                            importador.procesarFila(fila);
+                            String msg = importador.procesarFila(fila); // hace GET y devuelve texto
                             correctos++;
-                            publish(ConstantesUI.MSG_OK_PEDIDO
-                                    + fila.getNumeroPedido() + " -> " + fila.getEtiqueta());
+                            publish("✔ " + msg);
                         } catch (RuntimeException ex) {
-                            publish(ConstantesUI.MSG_ERROR_PEDIDO
-                                    + fila.getNumeroPedido() + ": " + ex.getMessage());
+                            publish("✘ Error en pedido " + fila.getNumeroPedido() + ": " + ex.getMessage());
                         }
                     }
-                    publish("\n" + ConstantesUI.MSG_FINALIZADO
-                            + correctos + "/" + filas.size());
+                    publish("\n" + ConstantesUI.MSG_FINALIZADO + correctos + "/" + filas.size());
                 } catch (Exception e) {
                     publish(ConstantesUI.MSG_ERROR_LEER + e.getMessage());
                 }
@@ -92,10 +90,8 @@ public class VentanaPrincipal extends JFrame {
             }
 
             @Override
-            protected void process(List<String> mensajes) {
-                for (String msg : mensajes) {
-                    areaLog.append(msg + "\n");
-                }
+            protected void process(java.util.List<String> mensajes) {
+                for (String m : mensajes) areaLog.append(m + "\n");
             }
 
             @Override
