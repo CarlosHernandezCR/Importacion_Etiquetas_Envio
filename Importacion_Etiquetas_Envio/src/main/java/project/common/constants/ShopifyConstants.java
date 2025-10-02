@@ -1,4 +1,4 @@
-package project.common.constantes;
+package project.common.constants;
 
 public class ShopifyConstants {
     public static final String HTTPS = "https://";
